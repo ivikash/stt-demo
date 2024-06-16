@@ -46,7 +46,7 @@ repos:
             "90",
             --wrap-descriptions,
             "90",
-            src,
+            myapplication,
             tests,
           ]
 
@@ -59,13 +59,13 @@ repos:
         exclude: ^tests/
         args:
           - -r
-          - src
+          - myapplication
 
   - repo: local
     hooks:
       - id: pytest
         name: pytest
-        entry: poetry run pytest --cov=src tests
+        entry: poetry run pytest --cov=myapplication tests
         language: system
         types: [python]
         pass_filenames: false

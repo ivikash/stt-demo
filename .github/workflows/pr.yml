@@ -48,7 +48,7 @@ jobs:
       - name: Run application
         run: poetry run application
       - name: Test with pytest
-        run: poetry run pytest tests --cov=src
+        run: poetry run pytest tests --cov=myapplication
 
   build-image:
     runs-on: ubuntu-22.04

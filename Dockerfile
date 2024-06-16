@@ -31,13 +31,13 @@ COPY . .
 
 RUN poetry install
 
-CMD ["python","-m", "main"]
+CMD ["python","-m", "myapplication.main"]
 
 FROM python-base as production
 
 COPY --from=builder-base $VENV_PATH $VENV_PATH
 WORKDIR $PYSETUP_PATH
-COPY ./src/ ./
+COPY ./myapplication/ ./myapplication/
 USER 10000
 
-CMD ["python","-m", "main"]
+CMD ["python","-m", "myapplication.main"]
