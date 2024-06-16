@@ -15,8 +15,13 @@ repository = "https://github.com/smarlhens/stt-demo"
 application = "myapplication.main:main"
 
 [tool.poetry.dependencies]
-python = "^3.12"
+python = ">=3.11,<3.12"
 loguru = "^0.7.2"
+realtimestt = "^0.1.16"
+python-socketio = "^5.11.2"
+realtimetts = "^0.4.1"
+ollama = "^0.2.1"
+langchain = "^0.2.5"
 
 [tool.poetry.dev-dependencies]
 bandit = "1.7.8"
