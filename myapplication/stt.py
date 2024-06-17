@@ -1,5 +1,6 @@
 import time
 
+import pyaudio
 from loguru import logger
 from RealtimeSTT import AudioToTextRecorder
 
@@ -10,6 +11,10 @@ class STT:
         self.signals = signals
         self.API = self.API(self)
         self.enabled = True
+
+    def text_detected(self, text):
+        # logger.debug(text)
+        pass
 
     def process_text(self, text):
         if not self.enabled:
@@ -32,15 +37,29 @@ class STT:
         self.recorder.feed_audio(data)
 
     def listen_loop(self):
+        def find_input_device():
+            pa = pyaudio.PyAudio()
+            for device_index in range(pa.get_device_count()):
+                dev = pa.get_device_info_by_index(device_index)
+                logger.debug(f"Device: {dev}")
+                if dev["name"].lower() in ["mic", "input"]:
+                    logger.info(f"Listening from: {dev}")
+                    return device_index + 1
+            return None
+
+        input_device = find_input_device()
+
+        logger.debug(f"Input device: {input_device}")
+
         logger.debug("STT Starting")
         recorder_config = {
             "compute_type": "auto",
             "enable_realtime_transcription": True,
-            "input_device_index": 1,
+            "input_device_index": input_device,
             "language": "en",
-            "level": "ERROR",
             "min_gap_between_recordings": 0.2,
             "min_length_of_recording": 0,
+            "on_realtime_transcription_update": self.text_detected,
             "on_recording_start": self.recording_start,
             "on_recording_stop": self.recording_stop,
             "post_speech_silence_duration": 0.4,
